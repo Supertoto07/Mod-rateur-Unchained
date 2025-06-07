@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Modérateurs Unchained</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      background: #0f0f1c;
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .neon-text {
+      text-shadow:
+        0 0 5px #00f7ff,
+        0 0 10px #00f7ff,
+        0 0 20px #00f7ff,
+        0 0 40px #00f7ff;
+    }
+
+    .glass {
+      backdrop-filter: blur(16px);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+    }
+
+    .neon-yellow {
+      color: #efe26d;
+      text-shadow:
+        0 0 5px #efe26d,
+        0 0 10px #efe26d,
+        0 0 20px #efe26d,
+        0 0 40px #efe26d;
+    }
+  </style>
+</head>
+<body>
+  <!-- Fond animé étoiles -->
+  <canvas id="stars"></canvas>
+
+  <!-- Header avec logo -->
+  <header class="text-center py-20">
+    <div class="flex justify-center mb-6 animate-fadeIn">
+      <img
+        src="modoyoutube-modified.png"
+        alt="Logo Modo"
+        class="w-28 md:w-36 drop-shadow-[0_0_15px_#ffd700] hover:scale-110 transition-transform duration-300"
+      />
+    </div>
+    <h1 class="text-5xl md:text-7xl font-bold neon-yellow">
+      Modérateurs Unchained
+    </h1>
+  </header>
+
+  <!-- Cartes principales -->
+  <main
+    class="max-w-6xl mx-auto grid gap-10 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 px-6 pb-20"
+  >
+    <button
+      data-aos="fade-up"
+      class="glass rounded-3xl p-6 hover:scale-105 transition-all duration-300 text-left w-full"
+      type="button"
+    >
+      <h2 class="text-2xl font-semibold mb-2">⌚ Absences</h2>
+      <p class="text-gray-300">Toutes les absences, baisses d'activité...</p>
+    </button>
+
+    <button
+      data-aos="fade-up"
+      data-aos-delay="100"
+      class="glass rounded-3xl p-6 hover:scale-105 transition-all duration-300 text-left w-full"
+      type="button"
+    >
+      <h2 class="text-2xl font-semibold mb-2">📢 Annonces</h2>
+      <p class="text-gray-300">Toutes les annonces importantes</p>
+    </button>
+
+    <button
+      data-aos="fade-up"
+      data-aos-delay="200"
+      class="glass rounded-3xl p-6 hover:scale-105 transition-all duration-300 text-left w-full"
+      type="button"
+    >
+      <h2 class="text-2xl font-semibold mb-2">📅 Planning</h2>
+      <p class="text-gray-300">Planning des réunions,absences...</p>
+    </button>
+
+    <a
+      href="Code_idées.html"
+      data-aos="fade-up"
+      data-aos-delay="200"
+      class="glass rounded-3xl p-6 hover:scale-105 transition-all duration-300 text-left w-full block"
+    >
+      <h2 class="text-2xl font-semibold mb-2">💡 Idées</h2>
+      <p class="text-gray-300">Toutes les idées, améliorations...</p>
+    </a>
+
+    <button
+      data-aos="fade-up"
+      data-aos-delay="200"
+      class="glass rounded-3xl p-6 hover:scale-105 transition-all duration-300 text-left w-full"
+      type="button"
+    >
+      <h2 class="text-2xl font-semibold mb-2">📌 Suivi-effectif</h2>
+      <p class="text-gray-300">Pour suivre les rank-up, dérank...</p>
+    </button>
+
+    <button
+      data-aos="fade-up"
+      data-aos-delay="200"
+      class="glass rounded-3xl p-6 hover:scale-105 transition-all duration-300 text-left w-full"
+      type="button"
+    >
+      <h2 class="text-2xl font-semibold mb-2">👨‍⚖️ Relevé activité</h2>
+      <p class="text-gray-300">
+        Permet de suivre son activité sur les tâches importantes
+      </p>
+    </button>
+  </main>
+
+  <!-- Footer -->
+  <footer class="text-center text-sm text-gray-500 pb-8">
+    © 2025 - Tous droits réservés ⭐
+  </footer>
+
+  <!-- Animate on Scroll -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init();
+  </script>
+
+  <!-- Script étoiles -->
+  <script>
+    const canvas = document.getElementById('stars');
+    const ctx = canvas.getContext('2d');
+    const stars = [];
+
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    for (let i = 0; i < 150; i++) {
+      stars.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 1.5,
+        dx: (Math.random() - 0.5) * 0.5,
+        dy: (Math.random() - 0.5) * 0.5,
+      });
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (const star of stars) {
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.r, 0, 2 * Math.PI);
+        ctx.fillStyle = '#00f7ff';
+        ctx.fill();
+        star.x += star.dx;
+        star.y += star.dy;
+        if (star.x < 0 || star.x > canvas.width) star.dx *= -1;
+        if (star.y < 0 || star.y > canvas.height) star.dy *= -1;
+      }
+      requestAnimationFrame(draw);
+    }
+    draw();
+  </script>
+</body>
+</html>
