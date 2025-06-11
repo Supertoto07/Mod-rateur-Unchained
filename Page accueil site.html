@@ -120,10 +120,11 @@
           <p class="text-gray-300">Toutes les idées, améliorations...</p>
         </a>
 
-        <button data-aos="fade-up" data-aos-delay="200" class="glass rounded-3xl p-6 hover:scale-105 transition-all duration-300 text-left w-full" type="button">
+        <a href="Page suivi effectif.html" data-aos="fade-up" data-aos-delay="200" class="glass rounded-3xl p-6 hover:scale-105 transition-all duration-300 text-left w-full block">
           <h2 class="text-2xl font-semibold mb-2">📌 Suivi-effectif</h2>
           <p class="text-gray-300">Pour suivre les rank-up, dérank...</p>
-        </button>
+        </a>
+
 
         <button data-aos="fade-up" data-aos-delay="200" class="glass rounded-3xl p-6 hover:scale-105 transition-all duration-300 text-left w-full" type="button">
           <h2 class="text-2xl font-semibold mb-2">👨‍⚖️ Relevé activité</h2>
@@ -137,149 +138,176 @@
     </div>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>
-      AOS.init();
+    <!-- ... le début du HTML reste inchangé jusqu'au script -->
+<script>
+  AOS.init();
 
-      const users = {
-        adchat: "73479639406975385601",
-        walylou: "37466080012573081602",
-        steelyx: "67680037458935808803",
-        slyzz: "73986710361158464204",
-        tomino: "72099121810820301905",
-        paul: "37315971439945318506",
-        leya: "128060719836352108607",
-        noam: "81483778038313779408",
-        razzanouille: "69540171065851906009",
-        swixor: "69497615979184129010",
-        thomas: "10798249638439282361111",
-        toshiro: "108193582284197484512",
-        vynce: "71196586784351851513",
-        phoenix: "56377693674523853114",
-        daymon: "114687915322482688015",
-        oxilo: "85403173125383783416",
-        anatheat: "95371946489610241017"
-      };
+  const users = {
+    adchat: "73479639406975385601",
+    walylou: "37466080012573081602",
+    steelyx: "67680037458935808803",
+    slyzz: "73986710361158464204",
+    tomino: "72099121810820301905",
+    paul: "37315971439945318506",
+    leya: "128060719836352108607",
+    noam: "81483778038313779408",
+    razzanouille: "69540171065851906009",
+    swixor: "69497615979184129010",
+    thomas: "10798249638439282361111",
+    toshiro: "108193582284197484512",
+    vynce: "71196586784351851513",
+    phoenix: "56377693674523853114",
+    daymon: "114687915322482688015",
+    oxilo: "85403173125383783416",
+    anatheat: "95371946489610241017"
+  };
 
-      const roles = {
-        adchat: "Administrateur",
-        walylou: "Administrateur",
-        steelyx: "Administrateur",
-        slyzz: "Moderateur",
-        tomino: "Responsable Moderation",
-        paul: "Responsable General",
-        leya: "Super Moderateur",
-        noam: "Super Moderateur",
-        razzanouille: "Moderateur",
-        swixor: "Super Moderateur",
-        thomas: "Super Moderateur",
-        toshiro: "Super Moderateur",
-        vynce: "Moderateur",
-        phoenix: "Super Moderateur",
-        daymon: "Moderateur",
-        oxilo: "Super Moderateur",
-        Anatheat: "Super Moderateur"
-      };
+  const roles = {
+    adchat: "Administrateur",
+    walylou: "Administrateur",
+    steelyx: "Administrateur",
+    slyzz: "Moderateur",
+    tomino: "Responsable Moderation",
+    paul: "Responsable General",
+    leya: "Super Moderateur",
+    noam: "Super Moderateur",
+    razzanouille: "Moderateur",
+    swixor: "Super Moderateur",
+    thomas: "Super Moderateur",
+    toshiro: "Super Moderateur",
+    vynce: "Moderateur",
+    phoenix: "Super Moderateur",
+    daymon: "Moderateur",
+    oxilo: "Super Moderateur",
+    anatheat: "Super Moderateur"
+  };
 
-      function checkLogin() {
-        const name = document.getElementById("username").value.trim().toLowerCase();
-        const pass = document.getElementById("password").value.trim();
-        const validPassword = users[name];
-        const errorMsg = document.getElementById("errorMsg");
+  function applyRoleStyle(role) {
+    const roleElement = document.getElementById("userRole");
+    switch (role.toLowerCase()) {
+      case "administrateur":
+        roleElement.style.color = "#ff4d4d";
+        roleElement.style.textShadow = "0 0 5px #ff4d4d, 0 0 10px #ff4d4d";
+        break;
+      case "responsable moderation":
+      case "responsable general":
+        roleElement.style.color = "#d5a6ff";
+        roleElement.style.textShadow = "0 0 5px #d5a6ff, 0 0 10px #d5a6ff";
+        break;
+      case "moderateur":
+      case "super moderateur":
+        roleElement.style.color = "#efe26d";
+        roleElement.style.textShadow = "0 0 5px #efe26d, 0 0 10px #efe26d";
+        break;
+      default:
+        roleElement.style.color = "#ffffff";
+        roleElement.style.textShadow = "none";
+        break;
+    }
+  }
 
-        if (validPassword && pass === validPassword) {
-          sessionStorage.setItem("isLoggedIn", "true");
-          sessionStorage.setItem("username", name);
-          document.getElementById("authModal").style.display = "none";
-          document.getElementById("siteContent").classList.remove("hidden");
-          document.getElementById("logoutContainer").classList.remove("hidden");
+  function checkLogin() {
+    const name = document.getElementById("username").value.trim().toLowerCase();
+    const pass = document.getElementById("password").value.trim();
+    const validPassword = users[name];
+    const errorMsg = document.getElementById("errorMsg");
 
-          const role = roles[name] || "membre";
-          document.getElementById("userRole").innerText = role;
-        } else {
-          errorMsg.classList.remove("hidden");
-        }
-      }
+    if (validPassword && pass === validPassword) {
+      sessionStorage.setItem("isLoggedIn", "true");
+      sessionStorage.setItem("username", name);
+      document.getElementById("authModal").style.display = "none";
+      document.getElementById("siteContent").classList.remove("hidden");
+      document.getElementById("logoutContainer").classList.remove("hidden");
 
-      function logout() {
-        sessionStorage.removeItem("isLoggedIn");
-        sessionStorage.removeItem("username");
-        document.getElementById("authModal").style.display = "flex";
-        document.getElementById("siteContent").classList.add("hidden");
-        document.getElementById("logoutContainer").classList.add("hidden");
-        document.getElementById("username").value = "";
-        document.getElementById("password").value = "";
-      }
+      const role = roles[name] || "membre";
+      document.getElementById("userRole").innerText = role;
+      applyRoleStyle(role);
+    } else {
+      errorMsg.classList.remove("hidden");
+    }
+  }
 
-      window.onload = () => {
-        const loggedIn = sessionStorage.getItem("isLoggedIn");
-        const username = sessionStorage.getItem("username");
+  function logout() {
+    sessionStorage.removeItem("isLoggedIn");
+    sessionStorage.removeItem("username");
+    document.getElementById("authModal").style.display = "flex";
+    document.getElementById("siteContent").classList.add("hidden");
+    document.getElementById("logoutContainer").classList.add("hidden");
+    document.getElementById("username").value = "";
+    document.getElementById("password").value = "";
+  }
 
-        if (loggedIn === "true" && username) {
-          document.getElementById("authModal").style.display = "none";
-          document.getElementById("siteContent").classList.remove("hidden");
-          document.getElementById("logoutContainer").classList.remove("hidden");
+  window.onload = () => {
+    const loggedIn = sessionStorage.getItem("isLoggedIn");
+    const username = sessionStorage.getItem("username");
 
-          const role = roles[username] || "membre";
-          document.getElementById("userRole").innerText = role;
-        }
-      };
+    if (loggedIn === "true" && username) {
+      document.getElementById("authModal").style.display = "none";
+      document.getElementById("siteContent").classList.remove("hidden");
+      document.getElementById("logoutContainer").classList.remove("hidden");
 
-      const canvas = document.getElementById('stars');
-      const ctx = canvas.getContext('2d');
-      const stars = [];
+      const role = roles[username] || "membre";
+      document.getElementById("userRole").innerText = role;
+      applyRoleStyle(role);
+    }
+  };
 
-      function resize() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-      }
+  const canvas = document.getElementById('stars');
+  const ctx = canvas.getContext('2d');
+  const stars = [];
 
-      function random(min, max) {
-        return Math.random() * (max - min) + min;
-      }
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
 
-      class Star {
-        constructor() {
-          this.reset();
-        }
-        reset() {
-          this.x = random(0, canvas.width);
-          this.y = random(0, canvas.height);
-          this.size = random(0.1, 1.2);
-          this.speed = random(0.05, 0.2);
-          this.opacity = random(0.1, 1);
-        }
-        update() {
-          this.y -= this.speed;
-          if (this.y < 0) this.reset();
-        }
-        draw() {
-          ctx.beginPath();
-          ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
-          ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
-          ctx.fill();
-        }
-      }
+  function random(min, max) {
+    return Math.random() * (max - min) + min;
+  }
 
-      function initStars(count) {
-        for (let i = 0; i < count; i++) {
-          stars.push(new Star());
-        }
-      }
+  class Star {
+    constructor() {
+      this.reset();
+    }
+    reset() {
+      this.x = random(0, canvas.width);
+      this.y = random(0, canvas.height);
+      this.size = random(0.1, 1.2);
+      this.speed = random(0.05, 0.2);
+      this.opacity = random(0.1, 1);
+    }
+    update() {
+      this.y -= this.speed;
+      if (this.y < 0) this.reset();
+    }
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
+      ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+      ctx.fill();
+    }
+  }
 
-      function animate() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        stars.forEach(star => {
-          star.update();
-          star.draw();
-        });
-        requestAnimationFrame(animate);
-      }
+  function initStars(count) {
+    for (let i = 0; i < count; i++) {
+      stars.push(new Star());
+    }
+  }
 
-      window.addEventListener('resize', resize);
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    stars.forEach(star => {
+      star.update();
+      star.draw();
+    });
+    requestAnimationFrame(animate);
+  }
 
-      resize();
-      initStars(150);
-      animate();
-    </script>
+  window.addEventListener('resize', resize);
+  resize();
+  initStars(150);
+  animate();
+</script>
+
   </body>
 </html>

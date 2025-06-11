@@ -45,15 +45,15 @@
 
 <main class="max-w-4xl mx-auto px-4 pb-20">
   <div class="flex flex-col md:flex-row gap-4 mb-6">
-    <input id="ideaTitle" placeholder="Titre de l'idée" class="flex-1 p-2 rounded bg-gray-800 text-white" />
+    <input id="ideaTitle" placeholder="Nom de l'idée" class="flex-1 p-2 rounded bg-gray-800 text-white" />
     <select id="ideaType" class="p-2 rounded bg-gray-800 text-white">
       <option value="Idée">Idée</option>
       <option value="Bug">Bug</option>
       <option value="Amélioration">Amélioration</option>
     </select>
   </div>
-  <textarea id="ideaDesc" rows="3" placeholder="Description..." class="w-full p-2 rounded bg-gray-800 text-white mb-4"></textarea>
-  <button onclick="addIdea()" class="bg-yellow-500 hover:bg-yellow-600 font-bold px-4 py-2 rounded mb-8">Créer proposition</button>
+  <textarea id="ideaDesc" rows="3" placeholder="Description" class="w-full p-2 rounded bg-gray-800 text-white mb-4"></textarea>
+  <button onclick="addIdea()" class="bg-yellow-500 hover:bg-yellow-600 font-bold px-4 py-2 rounded mb-8">Ajouter l'élèment</button>
 
   <div class="flex flex-wrap items-center gap-4 mb-6">
     <label for="filterType">Filtrer :</label>

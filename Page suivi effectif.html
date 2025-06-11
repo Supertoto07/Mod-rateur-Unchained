@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Absences & Baisse d'activité - Modérateurs Unchained</title>
+    <title>Suivi-effectif - Modérateurs Unchained</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
       body {
@@ -40,26 +40,34 @@
     <canvas id="stars"></canvas>
 
     <header class="text-center py-10">
-      <h1 class="text-4xl md:text-6xl font-bold neon-yellow">⌚ Absences & Baisse d'activité</h1>
+      <h1 class="text-4xl md:text-6xl font-bold neon-yellow">📌 Suivi-effectif</h1>
     </header>
 
     <main class="max-w-4xl mx-auto px-4 pb-20">
       <div class="flex flex-col md:flex-row gap-4 mb-6">
-        <input id="ideaTitle" placeholder="Renseignez absence ou Baisse d'activité" class="flex-1 p-2 rounded bg-gray-800 text-white" />
+        <input id="ideaTitle" placeholder="Nom de la personne" class="flex-1 p-2 rounded bg-gray-800 text-white" />
         <select id="ideaType" class="p-2 rounded bg-gray-800 text-white">
-          <option value="Absences">Absences</option>
-          <option value="Baisse d'activité">Baisse d'activité</option>
+          <option value="Rankup">Rankup</option>
+          <option value="Dérank">Dérank</option>
+          <option value="Rétrogradation">Rétrogradation</option>
+          <option value="Avertissement">Avertissement</option>
+          <option value="Mutation">Mutation</option>
+          <option value="Démission">Démission</option>
         </select>
       </div>
-      <textarea id="ideaDesc" rows="3" placeholder="Description" class="w-full p-2 rounded bg-gray-800 text-white mb-4"></textarea>
+      <textarea id="ideaDesc" rows="3" placeholder="Raison" class="w-full p-2 rounded bg-gray-800 text-white mb-4"></textarea>
       <button onclick="addIdea()" class="bg-yellow-500 hover:bg-yellow-600 font-bold px-4 py-2 rounded mb-8">Ajouter l'élèment</button>
 
       <div class="flex flex-wrap items-center gap-4 mb-6">
         <label for="filterType">Filtrer :</label>
         <select id="filterType" class="p-2 rounded bg-gray-800 text-white" onchange="loadIdeas()">
           <option value="">Toutes</option>
-          <option value="Absences">Absences</option>
-          <option value="Baisse d'activité">Baisse d'activité</option>
+          <option value="Rankup">Rankup</option>
+          <option value="Dérank">Dérank</option>
+          <option value="Rétrogradation">Rétrogradation</option>
+          <option value="Avertissement">Avertissement</option>
+          <option value="Mutation">Mutation</option>
+          <option value="Démission">Démission</option>
         </select>
 
         <label for="sortOrder">Trier :</label>
@@ -123,7 +131,7 @@
         localStorage.setItem("absences", JSON.stringify(ideas));
         document.getElementById("ideaTitle").value = "";
         document.getElementById("ideaDesc").value = "";
-        document.getElementById("ideaType").value = "Absences";
+        document.getElementById("ideaType").value = "Rankup";
         loadIdeas();
       }
 
@@ -149,13 +157,23 @@
           card.className = "glass p-4 rounded-xl";
           const date = new Date(idea.createdAt).toLocaleDateString("fr-FR");
 
+          const typeColorMap = {
+            "Rankup": "bg-green-600",
+            "Mutation": "bg-green-600",
+            "Dérank": "bg-red-600",
+            "Démission": "bg-red-600",
+            "Rétrogradation": "bg-red-600",
+            "Avertissement": "bg-yellow-500"
+          };
+          const badgeColor = typeColorMap[idea.type] || "bg-gray-700";
+
           card.innerHTML = `
             <div class="flex justify-between items-start">
               <div>
                 <h3 class="text-lg font-semibold mb-1">${idea.title}</h3>
                 <p class="text-sm text-gray-300 mb-1">${idea.desc}</p>
                 <div class="flex gap-2 items-center mt-1">
-                  <span class="text-xs px-2 py-1 bg-gray-700 rounded-full">${idea.type}</span>
+                  <span class="text-xs px-2 py-1 ${badgeColor} rounded-full">${idea.type}</span>
                   <span class="text-xs text-gray-400">📅 ${date}</span>
                 </div>
               </div>
