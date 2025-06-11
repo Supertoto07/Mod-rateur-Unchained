@@ -1,186 +1,285 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Modérateurs Unchained</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
-  <style>
-    body {
-      margin: 0;
-      background: #0f0f1c;
-      color: white;
-      font-family: 'Segoe UI', sans-serif;
-    }
-
-    .neon-text {
-      text-shadow:
-        0 0 5px #00f7ff,
-        0 0 10px #00f7ff,
-        0 0 20px #00f7ff,
-        0 0 40px #00f7ff;
-    }
-
-    .glass {
-      backdrop-filter: blur(16px);
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
-    }
-
-    canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: -1;
-    }
-
-    .neon-yellow {
-      color: #efe26d;
-      text-shadow:
-        0 0 5px #efe26d,
-        0 0 10px #efe26d,
-        0 0 20px #efe26d,
-        0 0 40px #efe26d;
-    }
-  </style>
-</head>
-<body>
-  <!-- Fond animé étoiles -->
-  <canvas id="stars"></canvas>
-
-  <!-- Header avec logo -->
-  <header class="text-center py-20">
-    <div class="flex justify-center mb-6 animate-fadeIn">
-      <img
-        src="modoyoutube-modified.png"
-        alt="Logo Modo"
-        class="w-28 md:w-36 drop-shadow-[0_0_15px_#ffd700] hover:scale-110 transition-transform duration-300"
-      />
-    </div>
-    <h1 class="text-5xl md:text-7xl font-bold neon-yellow">
-      Modérateurs Unchained
-    </h1>
-  </header>
-
-  <!-- Cartes principales -->
-  <main
-    class="max-w-6xl mx-auto grid gap-10 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 px-6 pb-20"
-  >
-    <button
-      data-aos="fade-up"
-      class="glass rounded-3xl p-6 hover:scale-105 transition-all duration-300 text-left w-full"
-      type="button"
-    >
-      <h2 class="text-2xl font-semibold mb-2">⌚ Absences</h2>
-      <p class="text-gray-300">Toutes les absences, baisses d'activité...</p>
-    </button>
-
-    <button
-      data-aos="fade-up"
-      data-aos-delay="100"
-      class="glass rounded-3xl p-6 hover:scale-105 transition-all duration-300 text-left w-full"
-      type="button"
-    >
-      <h2 class="text-2xl font-semibold mb-2">📢 Annonces</h2>
-      <p class="text-gray-300">Toutes les annonces importantes</p>
-    </button>
-
-    <button
-      data-aos="fade-up"
-      data-aos-delay="200"
-      class="glass rounded-3xl p-6 hover:scale-105 transition-all duration-300 text-left w-full"
-      type="button"
-    >
-      <h2 class="text-2xl font-semibold mb-2">📅 Planning</h2>
-      <p class="text-gray-300">Planning des réunions,absences...</p>
-    </button>
-
-    <a
-      href="Code_idées.html"
-      data-aos="fade-up"
-      data-aos-delay="200"
-      class="glass rounded-3xl p-6 hover:scale-105 transition-all duration-300 text-left w-full block"
-    >
-      <h2 class="text-2xl font-semibold mb-2">💡 Idées</h2>
-      <p class="text-gray-300">Toutes les idées, améliorations...</p>
-    </a>
-
-    <button
-      data-aos="fade-up"
-      data-aos-delay="200"
-      class="glass rounded-3xl p-6 hover:scale-105 transition-all duration-300 text-left w-full"
-      type="button"
-    >
-      <h2 class="text-2xl font-semibold mb-2">📌 Suivi-effectif</h2>
-      <p class="text-gray-300">Pour suivre les rank-up, dérank...</p>
-    </button>
-
-    <button
-      data-aos="fade-up"
-      data-aos-delay="200"
-      class="glass rounded-3xl p-6 hover:scale-105 transition-all duration-300 text-left w-full"
-      type="button"
-    >
-      <h2 class="text-2xl font-semibold mb-2">👨‍⚖️ Relevé activité</h2>
-      <p class="text-gray-300">
-        Permet de suivre son activité sur les tâches importantes
-      </p>
-    </button>
-  </main>
-
-  <!-- Footer -->
-  <footer class="text-center text-sm text-gray-500 pb-8">
-    © 2025 - Tous droits réservés ⭐
-  </footer>
-
-  <!-- Animate on Scroll -->
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-  <script>
-    AOS.init();
-  </script>
-
-  <!-- Script étoiles -->
-  <script>
-    const canvas = document.getElementById('stars');
-    const ctx = canvas.getContext('2d');
-    const stars = [];
-
-    function resize() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
-    window.addEventListener('resize', resize);
-    resize();
-
-    for (let i = 0; i < 150; i++) {
-      stars.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        r: Math.random() * 1.5,
-        dx: (Math.random() - 0.5) * 0.5,
-        dy: (Math.random() - 0.5) * 0.5,
-      });
-    }
-
-    function draw() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      for (const star of stars) {
-        ctx.beginPath();
-        ctx.arc(star.x, star.y, star.r, 0, 2 * Math.PI);
-        ctx.fillStyle = '#00f7ff';
-        ctx.fill();
-        star.x += star.dx;
-        star.y += star.dy;
-        if (star.x < 0 || star.x > canvas.width) star.dx *= -1;
-        if (star.y < 0 || star.y > canvas.height) star.dy *= -1;
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Modérateurs Unchained</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <style>
+      body {
+        margin: 0;
+        background: #0f0f1c;
+        color: white;
+        font-family: 'Segoe UI', sans-serif;
       }
-      requestAnimationFrame(draw);
-    }
-    draw();
-  </script>
-</body>
+
+      .neon-text {
+        text-shadow:
+          0 0 5px #00f7ff,
+          0 0 10px #00f7ff,
+          0 0 20px #00f7ff,
+          0 0 40px #00f7ff;
+      }
+
+      .glass {
+        backdrop-filter: blur(16px);
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
+      }
+
+      canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: -1;
+      }
+
+      .neon-yellow {
+        color: #efe26d;
+        text-shadow:
+          0 0 5px #efe26d,
+          0 0 10px #efe26d,
+          0 0 20px #efe26d,
+          0 0 40px #efe26d;
+      }
+
+      #authModal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.85);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 999;
+      }
+
+      #userRole {
+        margin-right: 0.75rem;
+        background: rgba(255, 255, 255, 0.1);
+        padding: 0.4rem 0.8rem;
+        border-radius: 9999px;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="authModal">
+      <div class="glass p-8 rounded-3xl text-center w-80">
+        <h2 class="text-2xl mb-4 font-semibold">Connexion</h2>
+        <input id="username" class="mb-3 w-full p-2 rounded bg-gray-800 text-white" placeholder="Nom" />
+        <input id="password" class="mb-3 w-full p-2 rounded bg-gray-800 text-white" placeholder="Mot de passe" type="password" />
+        <button onclick="checkLogin()" class="bg-yellow-500 hover:bg-yellow-600 w-full p-2 rounded font-bold">Se connecter</button>
+        <p id="errorMsg" class="text-red-400 mt-3 hidden">Identifiants invalides</p>
+      </div>
+    </div>
+
+    <div class="hidden fixed top-4 right-4 z-50 flex items-center" id="logoutContainer">
+      <span id="userRole" class="text-sm text-white"></span>
+      <button id="logoutBtn" onclick="logout()" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded">
+        Se déconnecter
+      </button>
+    </div>
+
+    <div id="siteContent" class="hidden">
+      <canvas id="stars"></canvas>
+
+      <header class="text-center py-20">
+        <div class="flex justify-center mb-6 animate-fadeIn">
+          <img src="modoyoutube-modified.png" alt="Logo Modo" class="w-28 md:w-36 drop-shadow-[0_0_15px_#ffd700] hover:scale-110 transition-transform duration-300" />
+        </div>
+        <h1 class="text-5xl md:text-7xl font-bold neon-yellow">Modérateurs Unchained</h1>
+      </header>
+
+      <main class="max-w-6xl mx-auto grid gap-10 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 px-6 pb-20">
+        
+        <a href="Page absence.html" data-aos="fade-up" class="glass rounded-3xl p-6 hover:scale-105 transition-all duration-300 text-left w-full block">
+          <h2 class="text-2xl font-semibold mb-2">⌚ Absences</h2>
+          <p class="text-gray-300">Toutes les absences, baisses d'activité...</p>
+        </a>
+        
+
+        <a href="Page annonces.html" data-aos="fade-up" data-aos-delay="100" class="glass rounded-3xl p-6 hover:scale-105 transition-all duration-300 text-left w-full block">
+          <h2 class="text-2xl font-semibold mb-2">📢 Annonces</h2>
+          <p class="text-gray-300">Toutes les annonces importantes</p>
+        </a>
+        
+        <button data-aos="fade-up" data-aos-delay="200" class="glass rounded-3xl p-6 hover:scale-105 transition-all duration-300 text-left w-full" type="button">
+          <h2 class="text-2xl font-semibold mb-2">📅 Planning</h2>
+          <p class="text-gray-300">Planning des réunions, absences...</p>
+        </button>
+
+        <a href="Page idées good.html" data-aos="fade-up" data-aos-delay="200" class="glass rounded-3xl p-6 hover:scale-105 transition-all duration-300 text-left w-full block">
+          <h2 class="text-2xl font-semibold mb-2">💡 Idées</h2>
+          <p class="text-gray-300">Toutes les idées, améliorations...</p>
+        </a>
+
+        <button data-aos="fade-up" data-aos-delay="200" class="glass rounded-3xl p-6 hover:scale-105 transition-all duration-300 text-left w-full" type="button">
+          <h2 class="text-2xl font-semibold mb-2">📌 Suivi-effectif</h2>
+          <p class="text-gray-300">Pour suivre les rank-up, dérank...</p>
+        </button>
+
+        <button data-aos="fade-up" data-aos-delay="200" class="glass rounded-3xl p-6 hover:scale-105 transition-all duration-300 text-left w-full" type="button">
+          <h2 class="text-2xl font-semibold mb-2">👨‍⚖️ Relevé activité</h2>
+          <p class="text-gray-300">Permet de suivre son activité sur les tâches importantes</p>
+        </button>
+      </main>
+
+      <footer class="text-center text-sm text-gray-500 pb-8">
+        © 2025 - Tous droits réservés ⭐
+      </footer>
+    </div>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+      AOS.init();
+
+      const users = {
+        adchat: "73479639406975385601",
+        walylou: "37466080012573081602",
+        steelyx: "67680037458935808803",
+        slyzz: "73986710361158464204",
+        tomino: "72099121810820301905",
+        paul: "37315971439945318506",
+        leya: "128060719836352108607",
+        noam: "81483778038313779408",
+        razzanouille: "69540171065851906009",
+        swixor: "69497615979184129010",
+        thomas: "10798249638439282361111",
+        toshiro: "108193582284197484512",
+        vynce: "71196586784351851513",
+        phoenix: "56377693674523853114",
+        daymon: "114687915322482688015",
+        oxilo: "85403173125383783416",
+        anatheat: "95371946489610241017"
+      };
+
+      const roles = {
+        adchat: "Administrateur",
+        walylou: "Administrateur",
+        steelyx: "Administrateur",
+        slyzz: "Moderateur",
+        tomino: "Responsable Moderation",
+        paul: "Responsable General",
+        leya: "Super Moderateur",
+        noam: "Super Moderateur",
+        razzanouille: "Moderateur",
+        swixor: "Super Moderateur",
+        thomas: "Super Moderateur",
+        toshiro: "Super Moderateur",
+        vynce: "Moderateur",
+        phoenix: "Super Moderateur",
+        daymon: "Moderateur",
+        oxilo: "Super Moderateur",
+        Anatheat: "Super Moderateur"
+      };
+
+      function checkLogin() {
+        const name = document.getElementById("username").value.trim().toLowerCase();
+        const pass = document.getElementById("password").value.trim();
+        const validPassword = users[name];
+        const errorMsg = document.getElementById("errorMsg");
+
+        if (validPassword && pass === validPassword) {
+          sessionStorage.setItem("isLoggedIn", "true");
+          sessionStorage.setItem("username", name);
+          document.getElementById("authModal").style.display = "none";
+          document.getElementById("siteContent").classList.remove("hidden");
+          document.getElementById("logoutContainer").classList.remove("hidden");
+
+          const role = roles[name] || "membre";
+          document.getElementById("userRole").innerText = role;
+        } else {
+          errorMsg.classList.remove("hidden");
+        }
+      }
+
+      function logout() {
+        sessionStorage.removeItem("isLoggedIn");
+        sessionStorage.removeItem("username");
+        document.getElementById("authModal").style.display = "flex";
+        document.getElementById("siteContent").classList.add("hidden");
+        document.getElementById("logoutContainer").classList.add("hidden");
+        document.getElementById("username").value = "";
+        document.getElementById("password").value = "";
+      }
+
+      window.onload = () => {
+        const loggedIn = sessionStorage.getItem("isLoggedIn");
+        const username = sessionStorage.getItem("username");
+
+        if (loggedIn === "true" && username) {
+          document.getElementById("authModal").style.display = "none";
+          document.getElementById("siteContent").classList.remove("hidden");
+          document.getElementById("logoutContainer").classList.remove("hidden");
+
+          const role = roles[username] || "membre";
+          document.getElementById("userRole").innerText = role;
+        }
+      };
+
+      const canvas = document.getElementById('stars');
+      const ctx = canvas.getContext('2d');
+      const stars = [];
+
+      function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+
+      function random(min, max) {
+        return Math.random() * (max - min) + min;
+      }
+
+      class Star {
+        constructor() {
+          this.reset();
+        }
+        reset() {
+          this.x = random(0, canvas.width);
+          this.y = random(0, canvas.height);
+          this.size = random(0.1, 1.2);
+          this.speed = random(0.05, 0.2);
+          this.opacity = random(0.1, 1);
+        }
+        update() {
+          this.y -= this.speed;
+          if (this.y < 0) this.reset();
+        }
+        draw() {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
+          ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+          ctx.fill();
+        }
+      }
+
+      function initStars(count) {
+        for (let i = 0; i < count; i++) {
+          stars.push(new Star());
+        }
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        stars.forEach(star => {
+          star.update();
+          star.draw();
+        });
+        requestAnimationFrame(animate);
+      }
+
+      window.addEventListener('resize', resize);
+
+      resize();
+      initStars(150);
+      animate();
+    </script>
+  </body>
 </html>

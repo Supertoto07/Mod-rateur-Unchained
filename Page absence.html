@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Absences & Baisse d'activité - Modérateurs Unchained</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body {
+        margin: 0;
+        background: #0f0f1c;
+        color: white;
+        font-family: 'Segoe UI', sans-serif;
+      }
+      .glass {
+        backdrop-filter: blur(16px);
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
+      }
+      .neon-yellow {
+        color: #efe26d;
+        text-shadow:
+          0 0 5px #efe26d,
+          0 0 10px #efe26d,
+          0 0 20px #efe26d,
+          0 0 40px #efe26d;
+      }
+      canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: -1;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="stars"></canvas>
+
+    <header class="text-center py-10">
+      <h1 class="text-4xl md:text-6xl font-bold neon-yellow">⌚ Absences & Baisse d'activité</h1>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 pb-20">
+      <div class="flex flex-col md:flex-row gap-4 mb-6">
+        <input id="ideaTitle" placeholder="Renseignez absence ou Baisse d'activité" class="flex-1 p-2 rounded bg-gray-800 text-white" />
+        <select id="ideaType" class="p-2 rounded bg-gray-800 text-white">
+          <option value="Absences">Absences</option>
+          <option value="Baisse d'activité">Baisse d'activité</option>
+        </select>
+      </div>
+      <textarea id="ideaDesc" rows="3" placeholder="Description..." class="w-full p-2 rounded bg-gray-800 text-white mb-4"></textarea>
+      <button onclick="addIdea()" class="bg-yellow-500 hover:bg-yellow-600 font-bold px-4 py-2 rounded mb-8">Ajouter l'élèment</button>
+
+      <div class="flex flex-wrap items-center gap-4 mb-6">
+        <label for="filterType">Filtrer :</label>
+        <select id="filterType" class="p-2 rounded bg-gray-800 text-white" onchange="loadIdeas()">
+          <option value="">Toutes</option>
+          <option value="Absences">Absences</option>
+          <option value="Baisse d'activité">Baisse d'activité</option>
+        </select>
+
+        <label for="sortOrder">Trier :</label>
+        <select id="sortOrder" class="p-2 rounded bg-gray-800 text-white" onchange="loadIdeas()">
+          <option value="desc">Plus récentes</option>
+          <option value="asc">Plus anciennes</option>
+        </select>
+      </div>
+
+      <div id="ideaList" class="grid gap-4"></div>
+    </main>
+
+    <script>
+      const canvas = document.getElementById('stars');
+      const ctx = canvas.getContext('2d');
+      const stars = [];
+
+      function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+
+      window.addEventListener('resize', resize);
+      resize();
+
+      for (let i = 0; i < 150; i++) {
+        stars.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          r: Math.random() * 1.5,
+          dx: (Math.random() - 0.5) * 0.5,
+          dy: (Math.random() - 0.5) * 0.5,
+        });
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (const star of stars) {
+          ctx.beginPath();
+          ctx.arc(star.x, star.y, star.r, 0, 2 * Math.PI);
+          ctx.fillStyle = '#00f7ff';
+          ctx.fill();
+          star.x += star.dx;
+          star.y += star.dy;
+          if (star.x < 0 || star.x > canvas.width) star.dx *= -1;
+          if (star.y < 0 || star.y > canvas.height) star.dy *= -1;
+        }
+        requestAnimationFrame(draw);
+      }
+
+      draw();
+
+      function addIdea() {
+        const title = document.getElementById("ideaTitle").value.trim();
+        const desc = document.getElementById("ideaDesc").value.trim();
+        const type = document.getElementById("ideaType").value;
+        if (!title || !desc) return alert("Merci de remplir tous les champs.");
+        const ideas = JSON.parse(localStorage.getItem("absences") || "[]");
+        const id = Date.now();
+        ideas.push({ id, title, desc, type, createdAt: new Date().toISOString() });
+        localStorage.setItem("absences", JSON.stringify(ideas));
+        document.getElementById("ideaTitle").value = "";
+        document.getElementById("ideaDesc").value = "";
+        document.getElementById("ideaType").value = "Absences";
+        loadIdeas();
+      }
+
+      function loadIdeas() {
+        const list = document.getElementById("ideaList");
+        const filterType = document.getElementById("filterType").value;
+        const sortOrder = document.getElementById("sortOrder").value;
+        let ideas = JSON.parse(localStorage.getItem("absences") || "[]");
+
+        if (filterType) {
+          ideas = ideas.filter(idea => idea.type === filterType);
+        }
+
+        ideas.sort((a, b) => {
+          return sortOrder === "asc"
+            ? new Date(a.createdAt) - new Date(b.createdAt)
+            : new Date(b.createdAt) - new Date(a.createdAt);
+        });
+
+        list.innerHTML = "";
+        ideas.forEach((idea) => {
+          const card = document.createElement("div");
+          card.className = "glass p-4 rounded-xl";
+          const date = new Date(idea.createdAt).toLocaleDateString("fr-FR");
+
+          card.innerHTML = `
+            <div class="flex justify-between items-start">
+              <div>
+                <h3 class="text-lg font-semibold mb-1">${idea.title}</h3>
+                <p class="text-sm text-gray-300 mb-1">${idea.desc}</p>
+                <div class="flex gap-2 items-center mt-1">
+                  <span class="text-xs px-2 py-1 bg-gray-700 rounded-full">${idea.type}</span>
+                  <span class="text-xs text-gray-400">📅 ${date}</span>
+                </div>
+              </div>
+              <div class="flex flex-col items-end">
+                <button onclick="deleteIdea(${idea.id})" class="text-red-500 hover:text-red-700 text-xs">Supprimer</button>
+              </div>
+            </div>
+          `;
+          list.appendChild(card);
+        });
+      }
+
+      function deleteIdea(id) {
+        if (!confirm("Supprimer cette proposition ?")) return;
+        const ideas = JSON.parse(localStorage.getItem("absences") || "[]");
+        const updated = ideas.filter(idea => idea.id !== id);
+        localStorage.setItem("absences", JSON.stringify(updated));
+        loadIdeas();
+      }
+
+      window.onload = loadIdeas;
+    </script>
+  </body>
+</html>
